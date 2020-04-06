@@ -1,22 +1,26 @@
-const express = require('express')
-const router = express.Router;
+const express = require("express");
+const {
+  getProjects,
+  getProject,
+  createProject,
+  updateProject,
+  deleteProject,
+} = require("../controllers/projects");
 
-router.get('/', (req, res) => {
-    res.status(200).json({success: true, msg: 'Show all projects'});
-})
+// Include other resource routers
+const messageRouter = require('./messages')
 
-router.get('/:id', (req, res) => {
-    res.status(200).json({success: true, msg: 'Show all projects'});
-})
+const router = express.Router();
 
-router.post('/', (req, res) => {
-    res.status(200).json({success: true, msg: 'Show all projects'});
-})
+// Re-route into other resource routers
+router.use('/:projectId/messages', messageRouter)
 
-router.put('/:id', (req, res) => {
-    res.status(200).json({success: true, msg: 'Show all projects'});
-})
+router.route("/")
+    .get(getProjects)
+    .post(createProject);
+router.route('/:id')
+    .get(getProject)
+    .put(updateProject)
+    .delete(deleteProject)
 
-router.delete('/:id', (req, res) => {
-    res.status(200).json({success: true, msg: 'Show all projects'});
-})
+module.exports = router;

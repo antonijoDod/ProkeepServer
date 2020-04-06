@@ -1,0 +1,20 @@
+[ 
+	{
+		"name": "Projekt 1",
+		"description": "Opis proketa 1",
+		"customerName": "Kornisik 1",
+		"customerEmail": "korisnik1@gmail.com"
+	},
+	{
+		"name": "Projekt 2",
+		"description": "Opis proketa 2",
+		"customerName": "Kornisik 2",
+		"customerEmail": "korisnik2@gmail.com"
+	},
+	{
+		"name": "Projekt 3",
+		"description": "Opis proketa 3",
+		"customerName": "Kornisik 3",
+		"customerEmail": "korisnik3@gmail.com"
+	}
+]
