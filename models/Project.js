@@ -36,6 +36,11 @@ const ProjectShema = new mongoose.Schema({
         type: String,
         default: 'no-photo.js'
     },
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

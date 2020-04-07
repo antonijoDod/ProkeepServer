@@ -6,7 +6,9 @@ const {
 
 const router = express.Router({mergeParams: true});
 
-router.route('/').get(getMessages).post(addMessage);
-router.route('/:id').get(getMessages);
+const {protect} = require('../middleware/auth')
+
+router.route('/').get(protect, getMessages).post(protect, addMessage);
+router.route('/:id').get(protect, getMessages);
 
 module.exports = router
