@@ -37,7 +37,7 @@ const ProjectShema = new mongoose.Schema({
         default: 'no-photo.js'
     },
     user: {
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },

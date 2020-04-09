@@ -6,7 +6,9 @@ const Project = require("../models/Project");
 // @route GET /api/v1/projects
 // @acess Private
 exports.getProjects = asyncHandler(async (req, res, next) => {
-  const projects = await Project.find();
+  const projects = await Project.find({ user: req.user.id }).sort({
+    createdAt: -1,
+  });
   res
     .status(200)
     .json({ sucess: true, count: projects.length, data: projects });
@@ -65,7 +67,7 @@ exports.updateProject = asyncHandler(async (req, res, next) => {
 
   project = await Project.findOneAndUpdate(req.params.id, req.body, {
     new: true,
-    runValidators: true
+    runValidators: true,
   });
 
   res.status(200).json({ success: true, data: project });

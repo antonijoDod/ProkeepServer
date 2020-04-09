@@ -2,12 +2,12 @@ const ErrorResponse = require('../utils/errorResponse')
 
 const errorHandler = (err,req,res,next) => {
 
-    let error ={...err}
+    let error = {...err}
 
     error.message = err.message
 
     // Logto console for dev
-    console.log(err)
+    console.log(err.red)
 
     // Mongoose bad ObjectId
     if(err.name === 'CastError'){
@@ -24,7 +24,7 @@ const errorHandler = (err,req,res,next) => {
     // Mongoose validation error
     if(err.name === 'ValidationError') {
         const message = Object.values(err.errors).map(val => val.message)
-        error= new ErrorResponse(message, 400)
+        error = new ErrorResponse(message, 400)
     }
 
     res.status(error.statusCode || 500).json({
