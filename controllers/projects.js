@@ -9,9 +9,7 @@ exports.getProjects = asyncHandler(async (req, res, next) => {
   const projects = await Project.find({ user: req.user.id }).sort({
     createdAt: -1,
   });
-  res
-    .status(200)
-    .json({ sucess: true, count: projects.length, data: projects });
+  res.status(200).json(projects);
 });
 
 // @desc Get single project
@@ -26,7 +24,7 @@ exports.getProject = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({ success: true, data: project });
+  res.status(200).json(project);
 });
 
 // @desc Create new project
@@ -37,10 +35,7 @@ exports.createProject = asyncHandler(async (req, res, next) => {
   req.body.user = req.user.id;
 
   const project = await Project.create(req.body);
-  res.status(201).json({
-    success: true,
-    data: project,
-  });
+  res.status(201).json(project);
 });
 
 // @desc Update project

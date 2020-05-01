@@ -1,6 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const User = require("../models/User");
+const nodemailer = require('nodemailer');
 
 // @desc Register user
 // @route POST /api/v1/auth/register
@@ -14,6 +15,33 @@ exports.register = asyncHandler(async (req, res, next) => {
     name,
     email,
     password,
+  });
+
+
+  // Send email
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.zoho.eu',
+    port: 465,
+    secure: true, //ssl
+    auth: {
+        user: 'antonijo@info-smart.hr',
+        pass: 'nkdinamoZG1987'
+    }
+  });
+  
+  let mailOptions = {
+    from: 'antonijo@info-smart.hr',
+    to: email,
+    subject: 'ProKepp registration',
+    text:  `${name}, thank you on registraton`
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
   });
 
   sendTokenResponse(user, 200, res);
@@ -48,6 +76,17 @@ exports.login = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
+// @desc Get current logged in user
+// @route POST /api/v1/auth/me
+// @acess Private
+exports.getMe = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user.id)
+    res.status(200).json({
+        success: true,
+        data: user
+    })
+})
+
 // Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
   // Create token
@@ -70,13 +109,20 @@ const sendTokenResponse = (user, statusCode, res) => {
   });
 };
 
-// @desc Get current logged in user
-// @route POST /api/v1/auth/me
-// @acess Private
-exports.getMe = asyncHandler(async (req, res, next) => {
-    const user = await User.findById(req.user.id)
-    res.status(200).json({
-        success: true,
-        data: user
-    })
+// @desc Forgot password 
+// @route POST /api/v1/auth/forgotpassword
+// @acess Public
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({email: req.body.email});
+
+  if(!user) {
+    return next(new ErrorResponse('There is no user with that email', 404))
+  }
+
+  // Get reset token 03:06min
+
+  res.status(200).json({
+      success: true,
+      data: user
+  })
 })
