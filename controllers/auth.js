@@ -24,8 +24,8 @@ exports.register = asyncHandler(async (req, res, next) => {
     port: 465,
     secure: true, //ssl
     auth: {
-        user: 'antonijo@info-smart.hr',
-        pass: 'nkdinamoZG1987'
+        user: '',
+        pass: ''
     }
   });
   
